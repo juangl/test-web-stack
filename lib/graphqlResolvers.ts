@@ -2,9 +2,28 @@ import dynamoDb from "./dynamo-db";
 import * as uuid from "uuid";
 import { getRandomAvatar } from "./unsplash";
 
+const DEFAULT_PAGE_SIZE = 20;
+
 export const Query = {
-  users(parent, args, context) {
-    return [{ name: "Nextjs", username: "hi" }];
+  async users(parent, args, context) {
+    let filter = {};
+    if (args.name) {
+      // add filter by name mutating the filter object
+      Object.assign(filter, {
+        FilterExpression: "contains(searchField, :searchField)",
+        ExpressionAttributeValues: {
+          ":searchField": args.name.toLowerCase(),
+        },
+      });
+    }
+
+    const { Items } = await dynamoDb.scan({
+      Limit: args.first || DEFAULT_PAGE_SIZE,
+      ExclusiveStartKey: args.after && { id: args.after },
+      ...filter,
+    });
+
+    return Items;
   },
 };
 
@@ -16,6 +35,7 @@ export const Mutation = {
       createdAt: Date.now(),
       updatedAt: Date.now(),
       avatarUrl: avatar.urls.small,
+      searchField: args.name.toLowerCase(),
       ...args,
     };
 
@@ -27,25 +47,17 @@ export const Mutation = {
   },
 
   async updateUser(parent, args, context) {
-    const avatar = await getRandomAvatar();
-    const user = {
-      id: uuid.v4(),
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      avatarUrl: avatar.urls.small,
-      ...args,
-    };
-
     const { Attributes } = await dynamoDb.update({
       Key: {
         id: args.id,
       },
       UpdateExpression:
-        "SET #n = :name, address = :address, description = :description, updatedAt = :updatedAt",
+        "SET #n = :name, address = :address, description = :description, updatedAt = :updatedAt searchField = :searchField",
       ExpressionAttributeValues: {
         ":name": args.name,
         ":address": args.address,
         ":description": args.description,
+        ":searchField": args.name.toLowerCase(),
         ":updatedAt": Date.now(),
       },
       ExpressionAttributeNames: {

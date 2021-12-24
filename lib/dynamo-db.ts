@@ -25,6 +25,8 @@ const API = {
     client.put(prepareDynamoDBParams(params)).promise(),
   query: (params: DynamoDBAPICallParams<typeof client.query>) =>
     client.query(prepareDynamoDBParams(params)).promise(),
+  scan: (params: DynamoDBAPICallParams<typeof client.scan>) =>
+    client.scan(prepareDynamoDBParams(params)).promise(),
   update: (params: DynamoDBAPICallParams<typeof client.update>) =>
     client.update(prepareDynamoDBParams(params)).promise(),
   delete: (params: DynamoDBAPICallParams<typeof client.delete>) =>
