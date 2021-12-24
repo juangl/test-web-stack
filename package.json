@@ -17,9 +17,12 @@
     "apollo-server-micro": "^3.5.0",
     "aws-sdk": "^2.783.0",
     "next": "12.0.7",
+    "node-fetch": "^3.1.0",
     "prettier": "^2.5.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "unsplash-js": "^7.0.15",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/react": "^17.0.38",
