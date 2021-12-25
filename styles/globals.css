@@ -1,8 +1,13 @@
+:root {
+  --container-width: 1328px;
+  --primary-font-family: 'Source Sans Pro', sans-serif
+}
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Source Sans Pro', sans-serif;;
+  font-family: var(--primary-font-family);
+  background-color: #F8F8F8;
 }
 
 a {
@@ -12,4 +17,36 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 48px;
+}
+
+header {
+  width: var(--container-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+input {
+  font-family: var(--primary-font-family); 
+  font-size: 24px;
+  font-weight: 400;
+  padding: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 400px;
+}
+
+input::placeholder {
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.4);
 }
