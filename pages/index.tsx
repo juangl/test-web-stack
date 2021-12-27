@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ALL_USERS_QUERY } from "../components/user-list";
+import { ALL_USERS_QUERY } from "../components/userList";
 import { initializeApollo } from "../lib/apollo";
 
 export default function Home() {
