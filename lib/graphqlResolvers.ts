@@ -1,6 +1,5 @@
-import dynamoDb from "./dynamo-db";
-import * as uuid from "uuid";
 import { getRandomAvatar } from "./unsplash";
+import dynamoDb from "./dynamoDb";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -30,6 +29,7 @@ export const Query = {
 export const Mutation = {
   async createUser(parent, args, context) {
     const avatar = await getRandomAvatar();
+    const uuid = require('uuid');
     const user = {
       id: uuid.v4(),
       createdAt: Date.now(),
