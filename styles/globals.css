@@ -50,3 +50,7 @@ input::placeholder {
   font-weight: 300;
   color: rgba(0, 0, 0, 0.4);
 }
+
+.user-list-container {
+  padding-top: 183px;
+}
