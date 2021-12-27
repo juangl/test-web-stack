@@ -1,10 +1,10 @@
 import Head from "next/head";
-import { ALL_USERS_QUERY } from "../components/userList";
+import { ALL_USERS_QUERY, UserList } from "../components/userList";
 import { initializeApollo } from "../lib/apollo";
 
 export default function Home() {
   return (
-    <div className="user-list-container">
+    <div>
       <Head>
         <title>Superformula - User List</title>
         <meta name="description" content="Superformula User List" />
@@ -19,7 +19,9 @@ export default function Home() {
         </form>
       </header>
 
-      <main></main>
+      <main>
+        <UserList />
+      </main>
 
       <footer></footer>
     </div>
@@ -32,7 +34,7 @@ export async function getServerSideProps() {
   await apolloClient.query({
     query: ALL_USERS_QUERY,
     variables: {
-      first: 10,
+      first: 6,
     },
   });
 

@@ -1,0 +1,74 @@
+.card {
+  width: 400px;
+  height: 336px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  cursor: pointer;
+}
+
+.card:hover {
+  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.1));
+}
+
+.avatarContainer {
+  align-self: center;
+}
+
+.avatarContainer img {
+  object-fit: cover;
+  border-radius: 100%;
+  align-self: center;
+}
+
+.cardTitleContainer {
+  align-self: stretch;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTitleContainer h2 {
+  margin: 0;
+}
+
+.description {
+  margin-top: 8px;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.createdAt {
+  font-weight: 300;
+  font-size: 16px;
+  visibility: hidden;
+}
+
+.card:hover .createdAt {
+  visibility: visible;
+}
+
+.createdAt span {
+  font-weight: 400;
+  color: #b01e1e;
+}
+
+.editIcon {
+  position: absolute;
+  right: 32px;
+  top: 40px;
+  width: 24px;
+  height: 24px;
+  visibility: hidden;
+}
+
+.card:hover .editIcon {
+  visibility: visible;
+}

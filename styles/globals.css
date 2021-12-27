@@ -10,6 +10,10 @@ body {
   background-color: #F8F8F8;
 }
 
+body {
+  padding: 183px 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -36,6 +40,11 @@ header h1 {
   margin: 0;
 }
 
+main {
+  width: var(--container-width);
+  margin: 0 auto;
+}
+
 input {
   font-family: var(--primary-font-family); 
   font-size: 24px;
@@ -51,6 +60,7 @@ input::placeholder {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.user-list-container {
-  padding-top: 183px;
+h2 {
+  font-size: 21px;
+  font-weight: 700;
 }

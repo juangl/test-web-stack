@@ -1,0 +1,10 @@
+.userListContainer {
+  margin-top: 64px;
+}
+
+.userListGrid {
+  display: flex;
+  flex-direction: row;
+  gap: 64px;
+  flex-wrap: wrap;
+}
