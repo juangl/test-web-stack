@@ -56,8 +56,8 @@ export function UserList(props: UserListProps) {
     return () => {
       // the component is unmounted/remounted when the search string changes and
       // since we had to use `cache-first` as the fetch policy because other
-      // policies behaves weirdly so we clear the cache to make sure that to
-      // always get the latest results.
+      // policies behaves weirdly, we clear the cache to make sure to always get
+      // the latest results.
       client.resetStore();
     };
   }, [client]);
