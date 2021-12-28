@@ -1,0 +1,20 @@
+.mapPreviewContainer {
+  width: 518px;
+  height: 336px;
+  position: relative;
+}
+
+.mapOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 255px;
+  height: 87px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

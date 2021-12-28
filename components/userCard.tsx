@@ -4,27 +4,41 @@ import { format } from "date-fns";
 import EditIcon from "./editIcon";
 import styles from "../styles/userCard.module.css";
 import { useButton } from "@react-aria/button";
+import { UserPayload } from "./userList";
+import EditModal from "./editModal";
 
 interface UserCardProps {
-  data: {
-    createdAt: string;
-    avatarUrl: string;
-    name: string;
-    description: string;
-  };
+  data: UserPayload;
 }
+
 export function UserCard(props: UserCardProps) {
+  const [editModalOpen, setEditModalOpen] = React.useState(false);
   const dataObj = new Date(Number(props.data.createdAt));
   const formattedCreatedAt = format(dataObj, "dd MMM yyyy");
 
   const containerRef = React.useRef<HTMLDivElement>();
-  let { buttonProps } = useButton({
-    ...props,
-    elementType: 'div'
-  }, containerRef);
+  // the container is not an actual button but a div not accessible by default,
+  // so we make it accessible using this hook
+  let { buttonProps } = useButton(
+    {
+      onPress: () => {
+        setEditModalOpen(true);
+      },
+      elementType: "div",
+    },
+    containerRef,
+  );
 
   return (
-    <div className={styles.card} {...buttonProps} ref={containerRef}>
+    <div className={styles.card} ref={containerRef} {...buttonProps}>
+      {editModalOpen && (
+        <EditModal
+          data={props.data}
+          onRequestClose={() => {
+            setEditModalOpen(false);
+          }}
+        />
+      )}
       <EditIcon className={styles.editIcon} />
       <div className={styles.avatarContainer}>
         <Image

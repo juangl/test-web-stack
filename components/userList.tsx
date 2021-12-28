@@ -1,19 +1,25 @@
 import { gql, useQuery } from "@apollo/client";
 import { UserCard } from "./userCard";
 import styles from "../styles/userList.module.css";
-import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import { USER_DATA_FIELDS } from "../lib/graphqlUtils";
+
 export const ALL_USERS_QUERY = gql`
+  ${USER_DATA_FIELDS}
   query users($first: Int!, $after: ID, $name: String) {
     users(first: $first, after: $after, name: $name) {
-      id
-      createdAt
-      name
-      address
-      description
-      avatarUrl
+      ...useDataFields
     }
   }
 `;
+
+export interface UserPayload {
+  id: string;
+  createdAt: string;
+  avatarUrl: string;
+  name: string;
+  description: string;
+  address: string;
+}
 
 export function UserList() {
   const { loading, error, data, fetchMore, networkStatus } = useQuery(

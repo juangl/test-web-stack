@@ -52,7 +52,7 @@ export const Mutation = {
         id: args.id,
       },
       UpdateExpression:
-        "SET #n = :name, address = :address, description = :description, updatedAt = :updatedAt searchField = :searchField",
+        "SET #n = :name, address = :address, description = :description, updatedAt = :updatedAt, searchField = :searchField",
       ExpressionAttributeValues: {
         ":name": args.name,
         ":address": args.address,

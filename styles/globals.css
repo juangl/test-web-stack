@@ -1,13 +1,13 @@
 :root {
   --container-width: 1328px;
-  --primary-font-family: 'Source Sans Pro', sans-serif
+  --primary-font-family: "Source Sans Pro", sans-serif;
 }
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: var(--primary-font-family);
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
 }
 
 body {
@@ -40,19 +40,22 @@ header h1 {
   margin: 0;
 }
 
+header input {
+  width: 400px;
+}
+
 main {
   width: var(--container-width);
   margin: 0 auto;
 }
 
 input {
-  font-family: var(--primary-font-family); 
+  font-family: var(--primary-font-family);
   font-size: 24px;
   font-weight: 400;
   padding: 16px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  width: 400px;
 }
 
 input::placeholder {
@@ -63,4 +66,48 @@ input::placeholder {
 h2 {
   font-size: 21px;
   font-weight: 700;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.form-group {
+  margin-bottom: 36px;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: var(--primary-font-family);
+  font-weight: 600;
+  width: 280px;
+  height: 90px;
+  font-size: 24px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+}
+
+button.primary {
+  background: #ffffff;
+}
+
+button:hover {
+  border: 4px solid rgba(0, 0, 0, 0.4);
+}
+
+button:focus {
+  border: 4px solid rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+
+button:disabled {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.5);;
+}
+
+button.secondary {
+  background-color: #f8f8f8;
 }
