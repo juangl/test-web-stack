@@ -7,9 +7,9 @@ function getApiClient() {
   if (!client) {
     const aws = require("aws-sdk");
     client = new aws.DynamoDB.DocumentClient({
-      accessKeyId: process.env.AWS_ACCESS_KEY,
-      secretAccessKey: process.env.AWS_SECRET_KEY,
-      region: process.env.AWS_REGION,
+      accessKeyId: process.env.AWS_DYNAMODB_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_DYNAMODB_SECRET_KEY,
+      region: process.env.AWS_DYNAMODB_REGION,
     });
   }
 
