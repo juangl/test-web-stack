@@ -12,10 +12,11 @@ export function AnimatedEditUserInfoModal(
 ) {
   const { isOpen, ...rest } = props;
   React.useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; 
+    } else {
       document.body.style.overflow = "unset";
-    };
+    }
   }, [isOpen]);
 
   // only render this component on the client
