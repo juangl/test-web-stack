@@ -8,7 +8,15 @@ export const ALL_USERS_QUERY = gql`
   ${USER_DATA_FIELDS}
   query users($first: Int!, $after: ID, $name: String) {
     users(first: $first, after: $after, name: $name) {
-      ...useDataFields
+      edges {
+        node {
+          ...useDataFields
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
     }
   }
 `;
@@ -32,7 +40,7 @@ export function getInitialPaginationVariables(page: number = 1) {
 function getFetchMoreVariables(data) {
   return {
     first: PAGE_SIZE,
-    after: data.users[data.users.length - 1].id,
+    after: data.users.pageInfo.endCursor,
   };
 }
 
@@ -43,14 +51,15 @@ export function UserList() {
     variables: getInitialPaginationVariables(Number(router.query.page)),
   });
 
-  if (!data.users) {
+  if (loading && !data) {
     return null;
   }
 
+  const userNodes = data.users.edges.map((edge) => edge.node);
   return (
     <div className={styles.userListContainer}>
       <div className={styles.userListGrid}>
-        {data.users.map((user) => (
+        {userNodes.map((user) => (
           <UserCard data={user} key={user.id} />
         ))}
       </div>

@@ -5,7 +5,7 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { concatPagination } from "@apollo/client/utilities";
+import { relayStylePagination } from "@apollo/client/utilities";
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 export type ResolverContext = {
@@ -35,7 +35,7 @@ function createApolloClient(context?: ResolverContext) {
       typePolicies: {
         Query: {
           fields: {
-            users: concatPagination(),
+            users: relayStylePagination(),
           },
         },
       },

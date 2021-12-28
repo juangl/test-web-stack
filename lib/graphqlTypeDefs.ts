@@ -2,15 +2,11 @@ import { gql } from "apollo-server-micro";
 
 export const typeDefs = gql`
   type Query {
-    users(first: Int, after: ID, name: String): [User!]!
+    users(first: Int, after: ID, name: String): UserPage
   }
 
   type Mutation {
-    createUser(
-      name: String!
-      address: String!
-      description: String!
-    ): User!
+    createUser(name: String!, address: String!, description: String!): User!
 
     updateUser(
       id: ID!
@@ -28,5 +24,20 @@ export const typeDefs = gql`
     avatarUrl: String!
     createdAt: String!
     updatedAt: String!
+  }
+
+  type UserEdge {
+    node: User!
+    cursor: ID!
+  }
+
+  type UserPageInfo {
+    endCursor: ID
+    hasNextPage: Boolean!
+  }
+
+  type UserPage {
+    edges: [UserEdge]!
+    pageInfo: UserPageInfo!
   }
 `;

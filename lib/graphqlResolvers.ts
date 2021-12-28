@@ -16,20 +16,26 @@ export const Query = {
       });
     }
 
-    const { Items } = await dynamoDb.scan({
+    const { Items, LastEvaluatedKey } = await dynamoDb.scan({
       Limit: args.first || DEFAULT_PAGE_SIZE,
       ExclusiveStartKey: args.after && { id: args.after },
       ...filter,
     });
 
-    return Items;
+    return {
+      edges: Items.map((item) => ({ node: item, cursor: item.id })),
+      pageInfo: {
+        endCursor: LastEvaluatedKey?.id,
+        hasNextPage: !!LastEvaluatedKey,
+      },
+    };
   },
 };
 
 export const Mutation = {
   async createUser(parent, args, context) {
     const avatar = await getRandomAvatar();
-    const uuid = require('uuid');
+    const uuid = require("uuid");
     const user = {
       id: uuid.v4(),
       createdAt: Date.now(),
