@@ -1,0 +1,14 @@
+.animated-edit-user-info-modal-enter  {
+  opacity: 0;
+}
+.animated-edit-user-info-modal-enter-active {
+  opacity: 1;
+  transition: opacity 400ms;
+}
+.animated-edit-user-info-modal-exit {
+  opacity: 1;
+}
+.animated-edit-user-info-modal-exit-active {
+  opacity: 0;
+  transition: opacity 400ms;
+}

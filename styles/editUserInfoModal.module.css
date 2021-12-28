@@ -20,7 +20,7 @@
 
 .modal {
   z-index: 1;
-  background: #F8F8F8;
+  background: #f8f8f8;
   border-radius: 8px;
   width: var(--container-width);
   padding: 64px;

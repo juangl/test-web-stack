@@ -5,7 +5,7 @@ import EditIcon from "./editIcon";
 import styles from "../styles/userCard.module.css";
 import { useButton } from "@react-aria/button";
 import { UserPayload } from "./userList";
-import EditModal from "./editModal";
+import { AnimatedEditUserInfoModal } from "./animatedEditUserInfoModal";
 
 interface UserCardProps {
   data: UserPayload;
@@ -31,14 +31,13 @@ export function UserCard(props: UserCardProps) {
 
   return (
     <div className={styles.card} ref={containerRef} {...buttonProps}>
-      {editModalOpen && (
-        <EditModal
-          data={props.data}
-          onRequestClose={() => {
-            setEditModalOpen(false);
-          }}
-        />
-      )}
+      <AnimatedEditUserInfoModal
+        isOpen={editModalOpen}
+        data={props.data}
+        onRequestClose={() => {
+          setEditModalOpen(false);
+        }}
+      />
       <EditIcon className={styles.editIcon} />
       <div className={styles.avatarContainer}>
         <Image

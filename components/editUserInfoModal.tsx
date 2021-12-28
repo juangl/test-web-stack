@@ -1,6 +1,5 @@
 import React from "react";
-import Portals from "./Portals";
-import styles from "../styles/editModal.module.css";
+import styles from "../styles/editUserInfoModal.module.css";
 import MapPreview from "./MapPreview";
 import { UserPayload } from "./userList";
 import EditUserInfoForm from "./editUserInfoForm";
@@ -22,23 +21,15 @@ const INCREMENT_COUNTER = gql`
   }
 `;
 
-interface EditModalProps {
+export interface EditUserInfoModalProps {
   data: UserPayload;
   onRequestClose: () => void;
 }
 
-export default function EditModal(props: EditModalProps) {
+export default function EditUserModal(props: EditUserInfoModalProps) {
   const [updateUser] = useMutation(INCREMENT_COUNTER);
 
-  React.useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, []);
-
   return (
-    <Portals>
       <div className={styles.editModalContainer}>
         <div className={styles.backdrop} onClick={props.onRequestClose} />
         <div className={styles.modal}>
@@ -64,6 +55,5 @@ export default function EditModal(props: EditModalProps) {
           </div>
         </div>
       </div>
-    </Portals>
   );
 }
