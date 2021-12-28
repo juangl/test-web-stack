@@ -18,6 +18,7 @@ export function AnimatedEditUserInfoModal(
     };
   }, [isOpen]);
 
+  // only render this component on the client
   if (typeof window === "undefined") {
     return null;
   }

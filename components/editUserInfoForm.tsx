@@ -11,10 +11,11 @@ export default function EditUserInfoForm(props: EditUserInfoFormProps) {
   const {
     register,
     handleSubmit,
+    formState: { isSubmitting },
   } = useForm({
     defaultValues: props.initialData,
   });
-  
+
   return (
     <form onSubmit={handleSubmit(props.onSubmit)}>
       <div className="form-group">
@@ -46,10 +47,15 @@ export default function EditUserInfoForm(props: EditUserInfoFormProps) {
         />
       </div>
       <div className={styles.editUserFormFooter}>
-        <button className="primary" type="submit">
+        <button disabled={isSubmitting} className="primary" type="submit">
           Save
         </button>
-        <button className="secondary" type="button" onClick={props.onCancel}>
+        <button
+          disabled={isSubmitting}
+          className="secondary"
+          type="button"
+          onClick={props.onCancel}
+        >
           Cancel
         </button>
       </div>

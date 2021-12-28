@@ -9,13 +9,18 @@ import { USER_DATA_FIELDS } from "../lib/graphqlUtils";
 // Define mutation
 const INCREMENT_COUNTER = gql`
   ${USER_DATA_FIELDS}
-  mutation (
+  mutation updateUser(
     $id: ID!
     $name: String!
     $address: String!
     $description: String!
   ) {
-    updateUser(id: $id, name: $name, address: $address, description: $description) {
+    updateUser(
+      id: $id
+      name: $name
+      address: $address
+      description: $description
+    ) {
       ...useDataFields
     }
   }
@@ -30,30 +35,31 @@ export default function EditUserModal(props: EditUserInfoModalProps) {
   const [updateUser] = useMutation(INCREMENT_COUNTER);
 
   return (
-      <div className={styles.editModalContainer}>
-        <div className={styles.backdrop} onClick={props.onRequestClose} />
-        <div className={styles.modal}>
-          <h1>Edit user</h1>
-          <div className={styles.editModalContent}>
-            <div>
-              <MapPreview address={props.data.address} />
-            </div>
-            <EditUserInfoForm
-              initialData={props.data}
-              onCancel={props.onRequestClose}
-              onSubmit={(values) => {
-                updateUser({ variables: {
+    <div className={styles.editModalContainer}>
+      <div className={styles.backdrop} onClick={props.onRequestClose} />
+      <div className={styles.modal}>
+        <h1>Edit user</h1>
+        <div className={styles.editModalContent}>
+          <div>
+            <MapPreview address={props.data.address} />
+          </div>
+          <EditUserInfoForm
+            initialData={props.data}
+            onCancel={props.onRequestClose}
+            onSubmit={async (values) => {
+              await updateUser({
+                variables: {
                   id: props.data.id,
                   name: values.name,
                   address: values.address,
                   description: values.description,
-                } }).then(() => {
-                  props.onRequestClose();
-                });
-              }}
-            />
-          </div>
+                },
+              });
+              props.onRequestClose();
+            }}
+          />
         </div>
       </div>
+    </div>
   );
 }
