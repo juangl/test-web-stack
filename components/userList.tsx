@@ -48,7 +48,7 @@ export function UserList(props: UserListProps) {
   // fetch data
   const { loading, data, fetchMore } = useQuery(ALL_USERS_QUERY, {
     variables: getInitialPaginationVariables(initialPage, props.search),
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
   });
 
