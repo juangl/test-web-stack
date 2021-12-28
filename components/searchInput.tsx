@@ -16,7 +16,7 @@ export default function SearchInput(props: SearchInputProps) {
       push(url, undefined, {
         shallow: true,
       });
-    }, 1000);
+    }, 400);
   }, [push]);
 
   return (
