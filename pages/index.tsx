@@ -1,5 +1,9 @@
 import Head from "next/head";
-import { ALL_USERS_QUERY, getInitialPaginationVariables, UserList } from "../components/userList";
+import {
+  ALL_USERS_QUERY,
+  getInitialPaginationVariables,
+  UserList,
+} from "../components/userList";
 import { initializeApollo } from "../lib/apollo";
 import { GetServerSidePropsContext } from "next";
 
@@ -34,7 +38,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   await apolloClient.query({
     query: ALL_USERS_QUERY,
-    variables: getInitialPaginationVariables(Number(context.query.page)),
+    variables: getInitialPaginationVariables(
+      context.query.page && Number(context.query.page),
+    ),
   });
 
   return {

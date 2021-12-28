@@ -46,9 +46,9 @@ function getFetchMoreVariables(data) {
 
 export function UserList() {
   const router = useRouter();
-
+  const currentPage = router.query.page ? Number(router.query.page) : 1;
   const { loading, error, data, fetchMore } = useQuery(ALL_USERS_QUERY, {
-    variables: getInitialPaginationVariables(Number(router.query.page)),
+    variables: getInitialPaginationVariables(currentPage),
   });
 
   if (loading && !data) {
@@ -63,16 +63,23 @@ export function UserList() {
           <UserCard data={user} key={user.id} />
         ))}
       </div>
-      <button
-        className="primary"
-        onClick={() =>
-          fetchMore({
-            variables: getFetchMoreVariables(data),
-          })
-        }
-      >
-        Load More
-      </button>
+      <div className={styles.userListFooter}>
+        {data.users.pageInfo.hasNextPage && (
+          <button
+            className="primary"
+            onClick={() => {
+              router.push(`/?page=${currentPage + 1}`, undefined, {
+                shallow: true,
+              });
+              fetchMore({
+                variables: getFetchMoreVariables(data),
+              });
+            }}
+          >
+            Load More
+          </button>
+        )}
+      </div>
     </div>
   );
 }
