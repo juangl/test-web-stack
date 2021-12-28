@@ -24,6 +24,8 @@
   border-radius: 8px;
   width: var(--container-width);
   padding: 64px;
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 .editModalContent {

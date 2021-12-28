@@ -28,7 +28,7 @@ interface EditModalProps {
 }
 
 export default function EditModal(props: EditModalProps) {
-  const [updateUser, { data, loading, error }] = useMutation(INCREMENT_COUNTER);
+  const [updateUser] = useMutation(INCREMENT_COUNTER);
 
   React.useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -40,7 +40,7 @@ export default function EditModal(props: EditModalProps) {
   return (
     <Portals>
       <div className={styles.editModalContainer}>
-        <div className={styles.backdrop} />
+        <div className={styles.backdrop} onClick={props.onRequestClose} />
         <div className={styles.modal}>
           <h1>Edit user</h1>
           <div className={styles.editModalContent}>

@@ -11,7 +11,6 @@ export default function EditUserInfoForm(props: EditUserInfoFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm({
     defaultValues: props.initialData,
   });
@@ -21,6 +20,7 @@ export default function EditUserInfoForm(props: EditUserInfoFormProps) {
       <div className="form-group">
         <label htmlFor="edit-user-name">Name</label>
         <input
+          required
           type="text"
           name="name"
           id="edit-user-name"
@@ -30,6 +30,7 @@ export default function EditUserInfoForm(props: EditUserInfoFormProps) {
       <div className="form-group">
         <label htmlFor="edit-address-address">Address</label>
         <input
+          required
           type="text"
           name="edit-address-address"
           {...register("address", { required: true })}
@@ -38,6 +39,7 @@ export default function EditUserInfoForm(props: EditUserInfoFormProps) {
       <div className="form-group">
         <label htmlFor="edit-user-description">Description</label>
         <input
+          required
           type="text"
           name="edit-user-description"
           {...register("description", { required: true })}
