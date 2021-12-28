@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { UserCard } from "./userCard";
 import styles from "../styles/userList.module.css";
 import { USER_DATA_FIELDS } from "../lib/graphqlUtils";
+import { useRouter } from "next/router";
 
 export const ALL_USERS_QUERY = gql`
   ${USER_DATA_FIELDS}
@@ -21,15 +22,26 @@ export interface UserPayload {
   address: string;
 }
 
+const PAGE_SIZE = 6;
+export function getInitialPaginationVariables(page: number = 1) {
+  return {
+    first: PAGE_SIZE * page,
+  };
+}
+
+function getFetchMoreVariables(data) {
+  return {
+    first: PAGE_SIZE,
+    after: data.users[data.users.length - 1].id,
+  };
+}
+
 export function UserList() {
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    ALL_USERS_QUERY,
-    {
-      variables: {
-        first: 6,
-      },
-    },
-  );
+  const router = useRouter();
+
+  const { loading, error, data, fetchMore } = useQuery(ALL_USERS_QUERY, {
+    variables: getInitialPaginationVariables(Number(router.query.page)),
+  });
 
   if (!data.users) {
     return null;
@@ -42,6 +54,16 @@ export function UserList() {
           <UserCard data={user} key={user.id} />
         ))}
       </div>
+      <button
+        className="primary"
+        onClick={() =>
+          fetchMore({
+            variables: getFetchMoreVariables(data),
+          })
+        }
+      >
+        Load More
+      </button>
     </div>
   );
 }

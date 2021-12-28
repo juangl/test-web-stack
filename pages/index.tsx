@@ -1,6 +1,7 @@
 import Head from "next/head";
-import { ALL_USERS_QUERY, UserList } from "../components/userList";
+import { ALL_USERS_QUERY, getInitialPaginationVariables, UserList } from "../components/userList";
 import { initializeApollo } from "../lib/apollo";
+import { GetServerSidePropsContext } from "next";
 
 export default function Home() {
   return (
@@ -28,14 +29,12 @@ export default function Home() {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({
     query: ALL_USERS_QUERY,
-    variables: {
-      first: 6,
-    },
+    variables: getInitialPaginationVariables(Number(context.query.page)),
   });
 
   return {
