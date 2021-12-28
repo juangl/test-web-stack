@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useApolloClient, useQuery } from "@apollo/client";
 import { UserCard } from "./userCard";
 import styles from "../styles/userList.module.css";
 import { USER_DATA_FIELDS } from "../lib/graphqlUtils";
@@ -43,14 +43,24 @@ interface UserListProps {
 export function UserList(props: UserListProps) {
   const router = useRouter();
   const currentPage = Number(router.query.page || 1);
-  const [initialPage] = React.useState(currentPage)
+  const client = useApolloClient();
 
   // fetch data
   const { loading, data, fetchMore } = useQuery(ALL_USERS_QUERY, {
-    variables: getInitialPaginationVariables(initialPage, props.search),
+    variables: getInitialPaginationVariables(currentPage, props.search),
     fetchPolicy: "cache-first",
     nextFetchPolicy: "cache-first",
   });
+
+  React.useEffect(() => {
+    return () => {
+      // the component is unmounted/remounted when the search string changes and
+      // since we had to use `cache-first` as the fetch policy because other
+      // policies behaves weirdly so we clear the cache to make sure that to
+      // always get the latest results.
+      client.resetStore();
+    };
+  }, [client]);
 
   if (loading && !data) {
     return <span>loading...</span>;

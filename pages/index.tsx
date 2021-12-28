@@ -11,7 +11,7 @@ import { getInitialPaginationVariables } from "../lib/paginationUtils";
 
 export default function Home() {
   const router = useRouter();
-  const currentSearch = (router.query.search || "") as string;
+  const currentSearch = decodeURIComponent((router.query.search || "") as string);
   return (
     <div>
       <Head>
@@ -45,7 +45,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     query: ALL_USERS_QUERY,
     variables: getInitialPaginationVariables(
       context.query.page && Number(context.query.page),
-      context.query.search as string || "",
+      decodeURIComponent(context.query.search as string || ""),
     ),
   });
 
