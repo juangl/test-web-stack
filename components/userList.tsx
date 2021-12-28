@@ -57,8 +57,8 @@ export function UserList(props: UserListProps) {
   const currentPage = router.query.page ? Number(router.query.page) : 1;
   const { loading, error, data, fetchMore } = useQuery(ALL_USERS_QUERY, {
     variables: getInitialPaginationVariables(currentPage, props.search),
-    fetchPolicy: "cache-first",
-    nextFetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
+    nextFetchPolicy: "cache-first",
   });
 
   if (loading && !data) {
