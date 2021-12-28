@@ -1,13 +1,13 @@
 import Head from "next/head";
 import {
   ALL_USERS_QUERY,
-  getInitialPaginationVariables,
   UserList,
 } from "../components/userList";
 import { initializeApollo } from "../lib/apollo";
 import { GetServerSidePropsContext } from "next";
 import SearchInput from "../components/searchInput";
 import { useRouter } from "next/router";
+import { getInitialPaginationVariables } from "../lib/paginationUtils";
 
 export default function Home() {
   const router = useRouter();
@@ -40,11 +40,12 @@ export default function Home() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const apolloClient = initializeApollo();
 
+  // get GraphQL data for SSR
   await apolloClient.query({
     query: ALL_USERS_QUERY,
     variables: getInitialPaginationVariables(
       context.query.page && Number(context.query.page),
-      context.query.search || "",
+      context.query.search as string || "",
     ),
   });
 

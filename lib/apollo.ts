@@ -13,6 +13,10 @@ export type ResolverContext = {
   res?: ServerResponse;
 };
 
+/**
+ * Isomorph Link will call the resolver directly on the server avoiding a
+ * unnecessary HTTP request while still using fetch on the client
+ */
 function createIsomorphLink(context: ResolverContext = {}) {
   if (typeof window === "undefined") {
     const { SchemaLink } = require("@apollo/client/link/schema");
@@ -35,7 +39,7 @@ function createApolloClient(context?: ResolverContext) {
       typePolicies: {
         Query: {
           fields: {
-            users: relayStylePagination(),
+            users: relayStylePagination(["name"])
           },
         },
       },

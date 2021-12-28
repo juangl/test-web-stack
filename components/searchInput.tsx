@@ -7,17 +7,17 @@ interface SearchInputProps {
 }
 
 export default function SearchInput(props: SearchInputProps) {
-  const { push } = useRouter();
+  const router = useRouter();
 
-  const debouncedNavigateToSearchRef = React.useRef<(search: string) => void>();
-  React.useEffect(() => {
-    debouncedNavigateToSearchRef.current = debounce((search: string) => {
+  // in order to work property the debounced function need to be stored in a ref to preserved it across re-renders
+  const debouncedNavigateToSearchRef = React.useRef(
+    debounce((search: string) => {
       const url = search ? `/?search=${search}` : "/";
-      push(url, undefined, {
+      router.push(url, undefined, {
         shallow: true,
       });
-    }, 400);
-  }, [push]);
+    }, 400),
+  );
 
   return (
     <form

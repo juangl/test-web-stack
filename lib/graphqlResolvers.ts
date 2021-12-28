@@ -4,11 +4,11 @@ import dynamoDb from "./dynamoDb";
 const DEFAULT_PAGE_SIZE = 20;
 
 export const Query = {
-  async users(parent, args, context) {
-    let filter = {};
+  async users(parent, args) {
+    let filters = {};
     if (args.name) {
-      // add filter by name mutating the filter object
-      Object.assign(filter, {
+      // add the "filter by name" expression by mutating the filter object
+      Object.assign(filters, {
         FilterExpression: "contains(searchField, :searchField)",
         ExpressionAttributeValues: {
           ":searchField": args.name.toLowerCase(),
@@ -16,10 +16,16 @@ export const Query = {
       });
     }
 
+    if (args.after) {
+      // add the offset by mutating the filter object
+      Object.assign(filters, {
+        ExclusiveStartKey: { id: args.after },
+      })
+    }
+
     const { Items, LastEvaluatedKey } = await dynamoDb.scan({
       Limit: args.first || DEFAULT_PAGE_SIZE,
-      ExclusiveStartKey: args.after && { id: args.after },
-      ...filter,
+      ...filters,
     });
 
     return {
@@ -33,7 +39,7 @@ export const Query = {
 };
 
 export const Mutation = {
-  async createUser(parent, args, context) {
+  async createUser(parent, args) {
     const avatar = await getRandomAvatar();
     const uuid = require("uuid");
     const user = {
@@ -52,7 +58,7 @@ export const Mutation = {
     return user;
   },
 
-  async updateUser(parent, args, context) {
+  async updateUser(parent, args) {
     const { Attributes } = await dynamoDb.update({
       Key: {
         id: args.id,

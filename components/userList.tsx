@@ -4,6 +4,10 @@ import styles from "../styles/userList.module.css";
 import { USER_DATA_FIELDS } from "../lib/graphqlUtils";
 import { useRouter } from "next/router";
 import React from "react";
+import {
+  getFetchMoreVariables,
+  getInitialPaginationVariables,
+} from "../lib/paginationUtils";
 
 export const ALL_USERS_QUERY = gql`
   ${USER_DATA_FIELDS}
@@ -13,6 +17,7 @@ export const ALL_USERS_QUERY = gql`
         node {
           ...useDataFields
         }
+        cursor
       }
       pageInfo {
         hasNextPage
@@ -31,33 +36,19 @@ export interface UserPayload {
   address: string;
 }
 
-const PAGE_SIZE = 6;
-
-export function getInitialPaginationVariables(page: number = 1, search) {
-  return {
-    first: PAGE_SIZE * page,
-    name: search,
-  };
-}
-
-function getFetchMoreVariables(data, search) {
-  return {
-    first: PAGE_SIZE,
-    after: data.users.pageInfo.endCursor,
-    name: search,
-  };
-}
-
 interface UserListProps {
   search: string;
 }
 
 export function UserList(props: UserListProps) {
   const router = useRouter();
-  const currentPage = router.query.page ? Number(router.query.page) : 1;
-  const { loading, error, data, fetchMore } = useQuery(ALL_USERS_QUERY, {
-    variables: getInitialPaginationVariables(currentPage, props.search),
-    fetchPolicy: "cache-and-network",
+  const currentPage = Number(router.query.page || 1);
+  const [initialPage] = React.useState(currentPage)
+
+  // fetch data
+  const { loading, data, fetchMore } = useQuery(ALL_USERS_QUERY, {
+    variables: getInitialPaginationVariables(initialPage, props.search),
+    fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
   });
 
@@ -83,10 +74,12 @@ export function UserList(props: UserListProps) {
           <button
             className="primary"
             onClick={() => {
-              let searchParams = new URLSearchParams(`page=${currentPage + 1}`);
+              let searchParams = new URLSearchParams({
+                page: String(currentPage + 1),
+              });
 
               if (props.search) {
-                searchParams.append("search", props.search);
+                searchParams.set("search", props.search);
               }
 
               router.push("/?" + searchParams.toString(), undefined, {

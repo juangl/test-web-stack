@@ -4,6 +4,17 @@ import styles from "../styles/mapPreview.module.css";
 
 type Coordinates = [longitude: number, latitude: number];
 
+const IMAGE_WIDTH = 518;
+const IMAGE_HEIGHT = 336;
+const IMAGE_ZOOM = 10;
+/**
+ * Get Mapbox static image URL from the given coordinates
+ */
+function getMapboxStaticImageURL(coordinates: Coordinates) {
+  const coordinatesStr = coordinates.join(",");
+  return `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${coordinatesStr},${IMAGE_ZOOM}/${IMAGE_WIDTH}x${IMAGE_HEIGHT}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}`;
+}
+
 /**
  * Get address coordinates from the given address string
  */
@@ -49,13 +60,9 @@ export default function MapPreview(props: MapPreviewProps) {
     <div className={styles.mapPreviewContainer}>
       {coordinates && (
         <Image
-          src={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${coordinates.join(
-            ",",
-          )},10/518x336?access_token=${
-            process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY
-          }`}
-          width={518}
-          height={336}
+          src={getMapboxStaticImageURL(coordinates)}
+          width={IMAGE_WIDTH}
+          height={IMAGE_HEIGHT}
           alt={props.address}
         />
       )}
