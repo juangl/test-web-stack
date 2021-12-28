@@ -7,9 +7,9 @@ function getApiClient() {
   if (!client) {
     const aws = require("aws-sdk");
     client = new aws.DynamoDB.DocumentClient({
-      accessKeyId: process.env.ACCESS_KEY,
-      secretAccessKey: process.env.SECRET_KEY,
-      region: process.env.REGION,
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_KEY,
+      region: process.env.AWS_REGION,
     });
   }
 
@@ -24,7 +24,7 @@ type DynamoDBAPICallParams<T extends (...args: any) => any> = Omit<
 
 // helper to assign TableName with a default value
 const prepareDynamoDBParams = <T>(params: T) => ({
-  TableName: process.env.TABLE_NAME,
+  TableName: process.env.DYNAMODB_TABLE_NAME,
   ...params,
 });
 
