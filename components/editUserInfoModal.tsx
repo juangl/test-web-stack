@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/editUserInfoModal.module.css";
-import MapPreview from "./MapPreview";
+import MapPreview from "./mapPreview";
 import { UserPayload } from "./userList";
 import EditUserInfoForm from "./editUserInfoForm";
 import { gql, useMutation } from "@apollo/client";

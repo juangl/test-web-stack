@@ -1,7 +1,7 @@
 import React from "react";
 import { CSSTransition } from "react-transition-group";
 import EditUserModal, { EditUserInfoModalProps } from "./editUserInfoModal";
-import Portals from "./Portals";
+import Portals from "./portals";
 
 interface AnimatedEditUserInfoModalProps extends EditUserInfoModalProps {
   isOpen: boolean;
