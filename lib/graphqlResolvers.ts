@@ -25,7 +25,7 @@ export const Query = {
     return {
       edges: Items.map((item) => ({ node: item, cursor: item.id })),
       pageInfo: {
-        endCursor: LastEvaluatedKey?.id,
+        endCursor: Items.length > 0 ? Items[Items.length - 1].id : null,
         hasNextPage: Items.length === args.first && !!LastEvaluatedKey,
       },
     };
