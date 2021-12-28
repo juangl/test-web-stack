@@ -105,9 +105,16 @@ button:focus {
 
 button:disabled {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.5);;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 button.secondary {
   background-color: #f8f8f8;
+}
+
+footer {
+  width: var(--container-width);
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 20px;
 }

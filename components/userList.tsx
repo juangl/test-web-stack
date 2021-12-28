@@ -3,6 +3,7 @@ import { UserCard } from "./userCard";
 import styles from "../styles/userList.module.css";
 import { USER_DATA_FIELDS } from "../lib/graphqlUtils";
 import { useRouter } from "next/router";
+import React from "react";
 
 export const ALL_USERS_QUERY = gql`
   ${USER_DATA_FIELDS}
@@ -31,31 +32,45 @@ export interface UserPayload {
 }
 
 const PAGE_SIZE = 6;
-export function getInitialPaginationVariables(page: number = 1) {
+
+export function getInitialPaginationVariables(page: number = 1, search) {
   return {
     first: PAGE_SIZE * page,
+    name: search,
   };
 }
 
-function getFetchMoreVariables(data) {
+function getFetchMoreVariables(data, search) {
   return {
     first: PAGE_SIZE,
     after: data.users.pageInfo.endCursor,
+    name: search,
   };
 }
 
-export function UserList() {
+interface UserListProps {
+  search: string;
+}
+
+export function UserList(props: UserListProps) {
   const router = useRouter();
   const currentPage = router.query.page ? Number(router.query.page) : 1;
   const { loading, error, data, fetchMore } = useQuery(ALL_USERS_QUERY, {
-    variables: getInitialPaginationVariables(currentPage),
+    variables: getInitialPaginationVariables(currentPage, props.search),
+    fetchPolicy: "cache-first",
+    nextFetchPolicy: "network-only",
   });
 
   if (loading && !data) {
-    return null;
+    return <span>loading...</span>;
   }
 
   const userNodes = data.users.edges.map((edge) => edge.node);
+
+  if (!userNodes.length) {
+    return <span>No users found :(</span>;
+  }
+
   return (
     <div className={styles.userListContainer}>
       <div className={styles.userListGrid}>
@@ -68,11 +83,18 @@ export function UserList() {
           <button
             className="primary"
             onClick={() => {
-              router.push(`/?page=${currentPage + 1}`, undefined, {
+              let searchParams = new URLSearchParams(`page=${currentPage + 1}`);
+
+              if (props.search) {
+                searchParams.append("search", props.search);
+              }
+
+              router.push("/?" + searchParams.toString(), undefined, {
                 shallow: true,
               });
+
               fetchMore({
-                variables: getFetchMoreVariables(data),
+                variables: getFetchMoreVariables(data, props.search),
               });
             }}
           >

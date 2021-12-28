@@ -6,8 +6,12 @@ import {
 } from "../components/userList";
 import { initializeApollo } from "../lib/apollo";
 import { GetServerSidePropsContext } from "next";
+import SearchInput from "../components/searchInput";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
+  const currentSearch = (router.query.search || "") as string;
   return (
     <div>
       <Head>
@@ -19,16 +23,16 @@ export default function Home() {
       <header>
         <h1>User List</h1>
 
-        <form>
-          <input placeholder="Search..." />
-        </form>
+        <SearchInput initialSearch={currentSearch} />
       </header>
 
       <main>
-        <UserList />
+        <UserList key={currentSearch} search={currentSearch} />
       </main>
 
-      <footer></footer>
+      <footer>
+        Made with 💜 by <a href="https://github.com/juangl">@juangl</a>
+      </footer>
     </div>
   );
 }
@@ -40,6 +44,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     query: ALL_USERS_QUERY,
     variables: getInitialPaginationVariables(
       context.query.page && Number(context.query.page),
+      context.query.search || "",
     ),
   });
 
