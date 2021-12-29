@@ -1,6 +1,6 @@
 https://user-images.githubusercontent.com/1887029/147615987-59cca91b-ea6f-4b3f-a552-cd94b8211506.mp4
 
-Live Version: Live Version: https://test-web-stack.vercel.app/
+Live Version: https://test-web-stack.vercel.app/
 
 ## Deployment
 
