@@ -1,3 +1,4 @@
+https://user-images.githubusercontent.com/1887029/147615987-59cca91b-ea6f-4b3f-a552-cd94b8211506.mp4
 ## Deployment
 
 **Create the DynamoDB table:**
@@ -40,3 +41,16 @@ The Backend is a GraphQL API deployed as a Vercel Serverless function which runs
 - modal implemented using [React Portals](https://reactjs.org/docs/portals.html) so that the modal is the last node of the document
 - mount/unmount animation using [React Transition Group](https://reactcommunity.org/react-transition-group/)
 
+## Create New Users
+
+- go to https://studio.apollographql.com/sandbox/explorer?endpoint=https%3A%2F%2Ftest-web-stack.vercel.app%2Fapi%2Fgraphql
+- run the query:
+```graphql
+mutation($name: String!, $address: String!, $description: String!){
+  createUser(name: $name, address: $address, description: $description) {
+    id
+  }
+}
+```
+
+this will create an user and add an avatar.
